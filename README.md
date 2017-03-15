@@ -1,5 +1,2 @@
-# express-template
-node.js express with pug
-
-This is basically the express (version 4.13.4) default project layout modified to use pug.
-
+# Mongoose for Application Development
+https://www.safaribooksonline.com/library/view/mongoose-for-application/9781782168195/index.html
