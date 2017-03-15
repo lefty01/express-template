@@ -26,10 +26,37 @@ router.get('/', function(req, res, next) {
 router.get('/login', function(req, res, next) {
     res.render('login-form', {title: 'Log in'});
 });
+router.post('/login', function(req, res, next){
+    if (req.body.Email) {
+	User.findOne({'email' : req.body.Email}, '_id name email modifiedOn', function(err, user) {
+	    if (!err) {
+		if (!user){
+		    res.redirect('/login?404=user');
+		}else{
+		    req.session.user = { "name" : user.name,
+					 "email": user.email,
+					 "_id": user._id };
+		    req.session.loggedIn = true;
+		    console.log('Logged in user: ' + user);
+		    res.redirect('/user');
+		}
+	    } else {
+		res.redirect('/login?404=error');
+	    }
+	});
+    } else {
+	res.redirect('/login?404=error');
+    }
+});
 
+router.get('/new', function(req, res, next) {
+    res.render('user-form', {
+	title: 'Create user',
+	buttonText: "Join!"
+    });
+});
 
-//app.use('/login', user.login);          // Edit current user form
-//app.post('/login', user.doLogin);       // Edit current user action
-
+// app.get('/user/new', user.create);      // Create new user form
+// app.post('/user/new', user.doCreate);   // Create new user action
 
 module.exports = router;

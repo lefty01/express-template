@@ -48,8 +48,6 @@ app.use('/user', users);
 
 // user routes
 // app.get('/user', user.index);           // Current user profile
-// app.get('/user/new', user.create);      // Create new user form
-// app.post('/user/new', user.doCreate);   // Create new user action
 // app.get('/user/edit', user.edit);       // Edit current user form
 // app.post('/user/edit', user.doEdit);    // Edit current user action
 // app.get('/user/delete', user.confirmDelete);       // delete current user form
