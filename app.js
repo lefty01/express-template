@@ -5,15 +5,18 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var db = require('./model/db');
+
 var routes  = require('./routes/index');
 var users   = require('./routes/users');
 var project = require('./routes/projects');
-var db = require('./model/db');
+
 var app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
+
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
@@ -23,9 +26,25 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-//app.use('/', routes);
-//app.use('/users', users);
-app.use(app.router);
+app.use('/', routes);
+app.use('/users', users);
+
+//app.use('/projects', projects);
+//app.get('/', routes.index);
+
+
+// user routes
+// app.get('/user', user.index);           // Current user profile
+// app.get('/user/new', user.create);      // Create new user form
+// app.post('/user/new', user.doCreate);   // Create new user action
+// app.get('/user/edit', user.edit);       // Edit current user form
+// app.post('/user/edit', user.doEdit);    // Edit current user action
+// app.get('/user/delete', user.confirmDelete);       // delete current user form
+// app.post('/user/delete', user.doDelete);    // Delete current user action
+// app.get('/logout', user.doLogout);          // Logout current user
+// app.get('/login', user.login);          // Edit current user form
+// app.post('/login', user.doLogin);       // Edit current user action
+
 
 
 // catch 404 and forward to error handler
@@ -58,9 +77,6 @@ app.use(function(err, req, res, next) {
     error: {}
   });
 });
-
-
-app.get('/', routes.index);
 
 
 
