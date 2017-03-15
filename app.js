@@ -1,9 +1,8 @@
 var express = require('express');
-var session = require('cookie-session');
+var session = require('express-session');
 var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
-var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var db = require('./model/db');
 
@@ -12,6 +11,20 @@ var users   = require('./routes/users');
 var project = require('./routes/projects');
 
 var app = express();
+
+var sess = {
+    secret: 'hund katze maus',
+    cookie: {},
+    resave: false,
+    saveUninitialized: false
+
+};
+
+if (app.get('env') === 'production') {
+    app.set('trust proxy', 1); // trust first proxy 
+    sess.cookie.secure = true; // serve secure cookies 
+};
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -23,11 +36,11 @@ app.set('view engine', 'pug');
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
+app.use(session(sess));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
-app.use('/users', users);
+app.use('/user', users);
 
 //app.use('/projects', projects);
 //app.get('/', routes.index);
@@ -42,8 +55,6 @@ app.use('/users', users);
 // app.get('/user/delete', user.confirmDelete);       // delete current user form
 // app.post('/user/delete', user.doDelete);    // Delete current user action
 // app.get('/logout', user.doLogout);          // Logout current user
-// app.get('/login', user.login);          // Edit current user form
-// app.post('/login', user.doLogin);       // Edit current user action
 
 
 
