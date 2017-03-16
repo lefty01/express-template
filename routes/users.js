@@ -57,7 +57,16 @@ router.get('/new', function(req, res, next) {
 });
 
 router.post('/new', function(req, res, next) {
-
+    User.create({
+        name: req.body.FullName,
+        email: req.body.Email,
+        modifiedOn : Date.now(),
+        lastLogin : Date.now()
+    }, function( err, user ){
+        if(!err){
+          console.log("User created and saved: " + user);
+        }
+    });
 });
 
 
