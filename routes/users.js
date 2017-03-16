@@ -11,14 +11,14 @@ var clearSession = function(req, res, callback){
 };
 
 router.get('/', function(req, res, next) {
-    if(req.session.loggedIn === true){
+    if (req.session.loggedIn === true) {
         res.render('user-page', {
             title: 'Mongoose Project Management',
             name: req.session.user.name,
             email: req.session.user.email,
             userID: req.session.user._id
         });
-    }else{
+    } else {
         res.redirect('/login');
     }
 });

@@ -17,7 +17,6 @@ var sess = {
     cookie: {},
     resave: false,
     saveUninitialized: false
-
 };
 
 if (app.get('env') === 'production') {
@@ -41,18 +40,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
 app.use('/user', users);
-
-//app.use('/projects', projects);
-//app.get('/', routes.index);
-
-
-// user routes
-// app.get('/user', user.index);           // Current user profile
-// app.get('/user/edit', user.edit);       // Edit current user form
-// app.post('/user/edit', user.doEdit);    // Edit current user action
-// app.get('/user/delete', user.confirmDelete);       // delete current user form
-// app.post('/user/delete', user.doDelete);    // Delete current user action
-// app.get('/logout', user.doLogout);          // Logout current user
+app.use('/project', project);
 
 
 
