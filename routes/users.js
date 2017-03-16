@@ -12,14 +12,14 @@ var clearSession = function(req, res, callback){
 
 router.get('/', function(req, res, next) {
     if(req.session.loggedIn === true){
-	res.render('user-page', {
-	    title: req.session.user.name,
-	    name: req.session.user.name,
-	    email: req.session.user.email,
-	    userID: req.session.user._id
-	});
+        res.render('user-page', {
+                title: req.session.user.name,
+                    name: req.session.user.name,
+                    email: req.session.user.email,
+                    userID: req.session.user._id
+                    });
     }else{
-	res.redirect('/user/login');
+        res.redirect('/user/login');
     }
 });
 
@@ -28,35 +28,37 @@ router.get('/login', function(req, res, next) {
 });
 router.post('/login', function(req, res, next){
     if (req.body.Email) {
-	User.findOne({'email' : req.body.Email}, '_id name email modifiedOn', function(err, user) {
-	    if (!err) {
-		if (!user){
-		    res.redirect('/login?404=user');
-		}else{
-		    req.session.user = { "name" : user.name,
-					 "email": user.email,
-					 "_id": user._id };
-		    req.session.loggedIn = true;
-		    console.log('Logged in user: ' + user);
-		    res.redirect('/user');
-		}
-	    } else {
-		res.redirect('/login?404=error');
-	    }
-	});
+        User.findOne({'email' : req.body.Email}, '_id name email modifiedOn', function(err, user) {
+            if (!err) {
+                if (!user){
+                    res.redirect('/login?404=user');
+                }else{
+                    req.session.user = { "name" : user.name,
+                                         "email": user.email,
+                                         "_id": user._id };
+                    req.session.loggedIn = true;
+                    console.log('Logged in user: ' + user);
+                    res.redirect('/user');
+                }
+            } else {
+                res.redirect('/login?404=error');
+            }
+        });
     } else {
-	res.redirect('/login?404=error');
+        res.redirect('/login?404=error');
     }
 });
 
 router.get('/new', function(req, res, next) {
     res.render('user-form', {
-	title: 'Create user',
-	buttonText: "Join!"
+        title: 'Create user',
+        buttonText: 'Join!'
     });
 });
 
-// app.get('/user/new', user.create);      // Create new user form
-// app.post('/user/new', user.doCreate);   // Create new user action
+router.post('/new', function(req, res, next) {
+
+});
+
 
 module.exports = router;
