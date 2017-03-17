@@ -1,3 +1,5 @@
+// coding the example project from "mongoose for application development" book
+
 var express = require('express');
 var session = require('express-session');
 var path = require('path');

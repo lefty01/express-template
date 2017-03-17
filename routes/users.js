@@ -44,19 +44,19 @@ router.post('/new', function(req, res, next) {
             } else {
                 res.redirect('/?error=true');
             }
-	}
+        }
         else {
             console.log("User created and saved: " + user);
-	    req.session.user = { "name" : user.name,
-				 "email": user.email,
-				 "_id"  : user._id };
-	    req.session.loggedIn = true;
-	    res.redirect( '/user' );
-	    // res.render('user-created', {
-	    // 	title: 'User created',
-	    // 	username: user.name,
-	    // 	usermail: user.email
-	    // });
+            req.session.user = { "name" : user.name,
+                                 "email": user.email,
+                                 "_id"  : user._id };
+            req.session.loggedIn = true;
+            res.redirect( '/user' );
+   // res.render('user-created', { -> display created page, but we redirect
+   //	title: 'User created',
+   //	username: user.name,
+   //	usermail: user.email
+   // });
        }
     });
 });
