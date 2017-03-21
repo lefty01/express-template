@@ -1,5 +1,9 @@
 extends layout
 
+block headjs
+  script(type="text/javascript", src="/javascripts/user.js")
+
+
 block content
   h1= title
   h2= name
@@ -15,3 +19,8 @@ block content
         a(href="/user/delete") Delete #{name}
       li
         a(href="/logout") Logout #{name}
+
+
+  h3 My Projects
+  ul#myprojects
+    li loading ...

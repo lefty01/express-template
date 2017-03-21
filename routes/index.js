@@ -16,7 +16,7 @@ router.get('/login', function(req, res, next) {
 });
 
 router.post('/login', function(req, res, next){
-    if (req.body.Email) {
+    if (req.body.Email) { // verify valid email format (abc@x.yy)
         User.findOne({'email' : req.body.Email},
                      '_id name email modifiedOn', function(err, user) {
                          if (!err) {

@@ -17,10 +17,21 @@ var projectSchema = new mongoose.Schema({
   tasks: String
 });
 
+
+// adding new static method for projects
+projectSchema.statics.findByUserID = function(userid, callback) {
+    this.find(
+        { createdBy: userid },
+	'_id projectName',
+        { sort: 'modifiedOn' },
+	callback
+  );
+}
+
 // make a connection
 mongoose.connect(dbURI);
 
-// Build User and Project models
+// Build/Compile User and Project models
 mongoose.model('User', userSchema);
 mongoose.model('Project', projectSchema);
 
