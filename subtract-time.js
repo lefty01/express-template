@@ -14,4 +14,5 @@ console.log("start: " + starttime);
 console.log("end  : " + endtime);
 
 
-console.log(moment(starttime).subtract(endtime));
+console.log(moment(endtime).subtract(starttime).format('hh:mm'));
+
