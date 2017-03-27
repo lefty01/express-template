@@ -4,40 +4,28 @@ var mongoose = require('mongoose');
 var Project = mongoose.model('Project');
 
 
-// PROJECT ROUTES -> was in app.js
-// app.get('/project/new', project.create);      // Create new//project form
-// app.post('/project/new', project.doCreate);   // Create new//project action
-// app.get('/project/:id', project.displayInfo); // Display project//info
-// app.get('/project/edit/:id', project.edit);   // Edit selected//project form
-// app.post('/project/edit/:id', project.doEdit);// Edit selected//project action
-// app.get('/project/delete/:id', project.confirmDelete);// Delete// selected product form
-// app.post('/project/delete/:id', project.doDelete);    // Delete//selected project action
+// router.get('/new', function(req, res, next) {
+
+// });
+// router.post('/new', function(req, res, next) {
+
+// });
 
 
-router.get('/new', function(req, res, next) {
+// router.get('/edit/:id', function(req, res, next) {
 
-});
-router.post('/new', function(req, res, next) {
+// });
+// router.post('/edit/:id', function(req, res, next) {
 
-});
+// });
 
-router.get('/:id', function(req, res, next) {
+// router.post('/delete/:id', function(req, res, next) {
 
-});
+// });
+// router.post('/delete/:id', function(req, res, next) {
 
-router.get('/edit/:id', function(req, res, next) {
+// });
 
-});
-router.post('/edit/:id', function(req, res, next) {
-
-});
-
-router.post('/delete/:id', function(req, res, next) {
-
-});
-router.post('/delete/:id', function(req, res, next) {
-
-});
 
 // Projects created by a user
 router.get('/byuser/:userid', function(req, res, next) {
@@ -57,6 +45,42 @@ router.get('/byuser/:userid', function(req, res, next) {
     res.json({ "status" : "error", "error" : "No user id supplied" });
   }
 });
+
+
+
+// GET project info
+router.get('/:id', function(req, res, next) {
+  console.log("Finding project _id: " + req.params.id);
+  console.log("loggedIn:" + req.session.loggedIn);
+
+  if (req.session.loggedIn != true) {
+    res.redirect('/login');
+  }
+  else {
+      //if (req.params.id.match(/^[0-9a-fA-F]{24}$/)) {
+    if (req.params.id) {
+
+      Project.findById(req.params.id, function(err, project) {
+        if (err) {
+          console.log(err);
+          res.redirect('/user?404=project');
+        } else {
+          console.log(project);
+          res.render('project-page', {
+            title: project.projectName,
+            projectName: project.projectName,
+            tasks: project.tasks,
+            createdBy: project.createdBy,
+            projectID: req.params.id
+          });
+        }
+      });
+    } else {
+      res.redirect('/user');
+    }
+  }
+});
+
 
 
 module.exports = router;

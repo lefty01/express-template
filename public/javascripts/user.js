@@ -12,10 +12,10 @@ $(document).ready(function() {
         if (data.status && data.status === 'error') {
           strHTMLOutput = "<li>Error: " + data.error + "</li>";
         } else {
-	    var intItem;
-	    var totalItems = data.length;
-	    var arrLI = [];
-	    for (intItem = totalItems - 1; intItem >= 0; intItem--) {
+            var intItem;
+            var totalItems = data.length;
+            var arrLI = [];
+            for (intItem = totalItems - 1; intItem >= 0; intItem--) {
               arrLI.push('<a href="/project/' + data[intItem]._id + '">' + data[intItem].projectName + "</a>");
             }
             strHTMLOutput = "<li>" + arrLI.join('</li><li>') + "</li>";
@@ -27,3 +27,4 @@ $(document).ready(function() {
     }
   });
 });
+
