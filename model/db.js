@@ -17,13 +17,21 @@ var projectSchema = new mongoose.Schema({
   tasks: String
 });
 
+var workhourSchema = new mongoose.Schema({
+  time: { type: Date, default: Date.now },
+  day:         String,
+  hhmm:        String,
+  startOrEnd:  String,
+  start:     { type: Boolean, default: false },
+  end:       { type: Boolean, default: false }
+});
 
 // adding new static method for projects
 projectSchema.statics.findByUserID = function(userid, callback) {
-    this.find(
-        { createdBy: userid },
-	'_id projectName',
-        { sort: 'modifiedOn' },
+  this.find(
+    { createdBy: userid },
+    '_id projectName',
+    { sort: 'modifiedOn' },
 	callback
   );
 }
@@ -34,6 +42,7 @@ mongoose.connect(dbURI);
 // Build/Compile User and Project models
 mongoose.model('User', userSchema);
 mongoose.model('Project', projectSchema);
+mongoose.model('WorkHour', workhourSchema);
 
 mongoose.connection.on('connected', function () {
   console.log('Mongoose connected to ' + dbURI);

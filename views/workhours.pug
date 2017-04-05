@@ -1,0 +1,15 @@
+extends layout
+
+block headjs
+  script(type="text/javascript", src="/javascripts/workhours.js")
+
+
+block content
+  h1= title
+  h2= name
+
+
+
+  h3 My Weeks / Working hours
+  ul#myworkhours
+    li loading ...
