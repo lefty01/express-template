@@ -6,3 +6,8 @@ body {
 a {
   color: #00B7FF;
 }
+
+#myworkhours {
+    font: 15px "Lucida Grande", monospace, sans-serif;
+}
+

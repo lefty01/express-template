@@ -58,9 +58,12 @@ router.post('/workhour', function(req, res, nxt) {
          res.redirect('/?error=true');
        } else {
 	     console.log("time added: " + newtime);
-	     res.render('index', { title: 'time added',
-                               timeadded: newtime.time
-                             });
+         res.json({ "status" : "success",
+                    "startOrEnd" : newtime.startOrEnd,
+                    "time": newtime.time});
+	     // res.render('index', { title: 'time added',
+         //                       timeadded: newtime.time
+         //                     });
 	   }
      });
 });
