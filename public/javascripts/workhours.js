@@ -7,8 +7,11 @@ function padZero(i) {
   return i;
 }
 
+
 $(document).ready(function() {
   var strHTMLOutput = '';
+  var pause = moment.duration("00:50:00");
+
   $.ajax('/workhours', {
     dataType: 'json',
     error: function() {
@@ -26,6 +29,7 @@ $(document).ready(function() {
           for (intItem = totalItems - 1; intItem >= 0; intItem--) {
 // build dict with date 'yyyy-mm-dd' as key and start, start1, start2, ... end, times as value ?!
 //          allTimes[data[intItem].time.get]
+            // FIXME: use moment here ?!
             var d = new Date(data[intItem].time);
             var date = d.toDateString();
             var h = padZero(d.getHours());
@@ -33,9 +37,15 @@ $(document).ready(function() {
 
             //arrLI.push('Time: ' + data[intItem].time + ' Type: ' + data[intItem].startOrEnd);
             if ("START" === data[intItem].startOrEnd) {
+              var starttime = moment(data[intItem].time);
               arrLI.push("START: " + date + " - " + h + ":" + m);
             } else {
-              arrLI.push("END:&nbsp;&nbsp; " + date + " - " + h + ":" + m);
+              var endtime = moment(data[intItem].time);
+              var d = moment.utc(moment(endtime).diff(moment(starttime))).subtract(pause).format("HH:mm");
+              var dNoPause = moment.utc(moment(endtime).diff(moment(starttime))).format("HH:mm");
+              arrLI.push("END:&nbsp;&nbsp; " + date + " - " + h + ":" + m + " worktime: " + d);
+              console.log("start="+starttime.format("HH:mm")+" - end="+endtime.format("HH:mm")+
+                          " diff: " + d + " ("+dNoPause+")");
             }
           }
           strHTMLOutput = "<li>" + arrLI.join('</li><li>') + "</li>";
