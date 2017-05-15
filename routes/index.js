@@ -3,7 +3,7 @@ var router = express.Router();
 var mongoose = require('mongoose');
 var User = mongoose.model('User');
 var WorkHour = mongoose.model('WorkHour');
-
+var moment = require('moment');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -69,9 +69,9 @@ router.post('/workhour', function(req, res, nxt) {
 });
 
 
+
 router.get('/workhours', function(req, res, nxt) {
   console.log('getting all logged working hours');
-
 
 // find last x days first (eg. last 30 days)
 // WorkHour.find( //query today up to tonight
@@ -91,5 +91,42 @@ router.get('/workhours', function(req, res, nxt) {
                   }
                 });
 });
+
+
+router.get('/workhours/:year/:month', function(req, res) {
+  // month in moment is 0 based, so 9 is actually october, subtract 1 to compensate
+  // array is 'year', 'month', 'day', etc
+  var startDate = moment([req.params.year, req.params.month - 1]);
+  // Clone the value before .endOf()
+  var endDate = moment(startDate).endOf('month');
+  console.log('getting logged working hours between:');
+  console.log(startDate.toDate());
+  console.log(endDate.toDate());
+
+  WorkHour.find({
+    $and: [
+      {
+        'time': {
+          $gte: startDate.toDate(),
+          $lt: endDate.toDate()
+        }
+      },
+      {
+        $or: [{'startOrEnd' : 'START'}, {'startOrEnd' : 'END'}]
+      }
+    ]},
+                'time startOrEnd',
+                { sort: [['time', -1]] },
+                function(err, hours) {
+                  if (err) {
+                    console.log(err);
+                    res.json({ "status" : "error", "error" : "error getting times" });
+                  } else {
+                    console.log(hours);
+                    res.json(hours);
+                  }
+                });
+});
+
 
 module.exports = router;

@@ -20,6 +20,7 @@ var sess = {
     resave: false,
     saveUninitialized: false
 };
+// app.use(require('express-session')({ secret: 'hund cat Maus', cookie: {}, resave: false, saveUninitialized: false }));
 
 if (app.get('env') === 'production') {
     app.set('trust proxy', 1); // trust first proxy
