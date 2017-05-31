@@ -6,9 +6,18 @@ block headjs
 
 block content
   h1= title
+  |Target: 7:36
   h2= name
 
+  a#prevmonth(href='#') &lt;Prev
+  |  Month 
+  a#nextmonth(href='#') Next&gt;
 
+  br
+  label
+    input(type="checkbox", name="add_pause" checked)
+    = " Tick to substract pause time"
+  br
 
   h3 My Weeks / Working hours
   ul#myworkhours

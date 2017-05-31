@@ -1,5 +1,8 @@
 //var moment = require('moment');
+var whichMonth;
 
+
+// if integer value i is less then 10 (0..9) add leading zero (00..09)
 function padZero(i) {
   if (i < 10) {
     i = "0" + i;
@@ -8,18 +11,10 @@ function padZero(i) {
 }
 
 
-$(document).ready(function() {
-  var strHTMLOutput = '';
+function displayMonthlyStat(month, year) {
   var pause = moment.duration("00:50:00");
-  var thisMoment = moment();
-  var thisMonth = thisMoment.format('M');
-  var thisYear  = thisMoment.format('YYYY');
-  console.log("this month: " + thisMonth);
-  console.log("this year: "  + thisYear);
 
-
-
-  $.ajax('/workhours/'+thisYear+'/'+thisMonth, {
+  $.ajax('/workhours/' + year + '/' + month, {
     dataType: 'json',
     error: function() {
       console.log("ajax error :(");
@@ -71,5 +66,47 @@ $(document).ready(function() {
       $('#myworkhours').html(strHTMLOutput);
     }
   });
+
+}
+
+
+// function prevNext(whichMoment, prevNxt) {
+//   //alert(thisarg);
+//   newMoment = moment(whichMoment).add(prevNxt, 'months');
+//   var thisMonth = newMoment.format('M');
+//   var thisYear  = newMoment.format('YYYY');
+//   console.log("this month: " + thisMonth);
+//   console.log("this year: "  + thisYear);
+  
+// }
+
+
+$(document).ready(function() {
+  var strHTMLOutput = '';
+  var thisMoment = moment();
+  var thisMonth = thisMoment.format('M');
+  var thisYear  = thisMoment.format('YYYY');
+  console.log("this month: " + thisMonth);
+  console.log("this year: "  + thisYear);
+
+  // view previous or next month
+  $("#prevmonth").click(function() {
+    //prevNext(thisMonth, -1);
+    whichMonth--;
+    thisMoment.add(-1, 'M');
+    console.log("new month: " + whichMonth);
+  });
+
+  $('#nextmonth').click(function() {
+    //prevNext(thisMonth, 1);
+    whichMonth++;
+    thisMoment.add(-1, 'M');
+    console.log("new month: " + whichMonth);
+  });
+
+  displayMonthlyStat(thisMonth, thisYear);
+
+
+
 });
 
