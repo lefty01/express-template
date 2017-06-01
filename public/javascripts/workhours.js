@@ -1,6 +1,6 @@
 //var moment = require('moment');
 var whichMonth;
-
+var durations = {};
 
 // if integer value i is less then 10 (0..9) add leading zero (00..09)
 function padZero(i) {
@@ -52,9 +52,11 @@ function displayMonthlyStat(month, year) {
               var endtime = moment(data[intItem].time);
               var dNoPause = moment.utc(moment(endtime).diff(moment(starttime))).format("HH:mm");
               var d = moment.utc(moment(endtime).diff(moment(starttime))).subtract(pause).format("HH:mm");
+              // add durations with/without pause to some global data structure so we can use it to toggle the displayed value
+              //
 
-              arrLI.push("END:&nbsp;&nbsp; " + date + " - " + h + ":" + m + " worktime: " + dNoPause);
-              console.log("start="+starttime.format("HH:mm")+" - end="+endtime.format("HH:mm")+
+              arrLI.push("END:&nbsp;&nbsp; " + date + " - " + h + ":" + m + " worktime: <span id=\"duration_"+intItem+"\">" + dNoPause + "</span>");
+              console.log("item=" + intItem + " start="+starttime.format("HH:mm")+" - end="+endtime.format("HH:mm")+
                           " diff: " + d + " ("+dNoPause+")");
             }
           }
@@ -104,9 +106,23 @@ $(document).ready(function() {
     console.log("new month: " + whichMonth);
   });
 
+
+  var ckbox = $('#add_pause');
+  $('input#add_pause').on('click',function () {
+    if ($('#add_pause').is(':checked')) {
+      //alert('You have Checked it');
+      $("#duration_43").text("checked");
+    } else {
+      //alert('You Un-Checked it');
+      $("#duration_43").text("UN-checked");
+    }
+  });
+  // $('#add_pause').click(function() {
+  //   $("#duration_0").text("xxx");
+  // });
+
+
   displayMonthlyStat(thisMonth, thisYear);
-
-
 
 });
 
