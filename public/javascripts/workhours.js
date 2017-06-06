@@ -88,22 +88,35 @@ $(document).ready(function() {
   var thisMoment = moment();
   var thisMonth = thisMoment.format('M');
   var thisYear  = thisMoment.format('YYYY');
+  whichMonth = thisMonth;
   console.log("this month: " + thisMonth);
   console.log("this year: "  + thisYear);
+  $("#month_year").html(thisMonth + "/" + thisYear);
 
   // view previous or next month
   $("#prevmonth").click(function() {
-    //prevNext(thisMonth, -1);
-    whichMonth--;
     thisMoment.add(-1, 'M');
-    console.log("new month: " + whichMonth);
+    var prevMonth = thisMoment.format('M');
+    var prevYear = thisMoment.format('YYYY');
+    console.log("prev  month/year: " + prevMonth + "/" + prevYear);
+    $("#month_year").html(prevMonth + "/" + prevYear);
+    displayMonthlyStat(prevMonth, prevYear);
   });
 
   $('#nextmonth').click(function() {
-    //prevNext(thisMonth, 1);
-    whichMonth++;
-    thisMoment.add(-1, 'M');
-    console.log("new month: " + whichMonth);
+    thisMoment.add(1, 'M');
+    var nextMonth = thisMoment.format('M');
+    var nextYear = thisMoment.format('YYYY');
+
+    if (nextMonth > thisMonth && nextYear >= thisYear) {
+      thisMoment.add(-1, 'M');
+      console.log("cannot look into the future!");
+    }
+    else {
+      console.log("next  month/year: " + nextMonth + "/" + nextYear);
+      $("#month_year").html(nextMonth + "/" + nextYear);
+      displayMonthlyStat(nextMonth, nextYear);
+    }
   });
 
 
