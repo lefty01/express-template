@@ -1,13 +1,62 @@
+/* body { */
+/*   padding: 50px; */
+/*   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif; */
+/* } */
+/*******************************************************************************************************************
+*************** GENERAL ********************************************************************************************
+********************************************************************************************************************/
 body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+    font-family: "Roboto", sans-serif;
+    font-size: 12px;
+    line-height: 18px;
+    font-weight: 400;
+    background: #fff;
+    color: #4c4c4c;
+    padding: 0;
+    margin: 0;
 }
 
-a {
-  color: #00B7FF;
+
+.workhours-page {
+	overflow: hidden;
+	position: absolute;
+	width: 460px;
+	top: 10%;
+	left: 10%;
+	/* -webkit-transform: translateX(-50%) translateY(-50%); */
+ 	/* -ms-transform: translateX(-50%) translateY(-50%); */
+ 	/* 	transform: translateX(-50%) translateY(-50%); */
+}
+
+.workhours-page h1 {
+	font-size: 32px;
+	line-height: 57px;
+	font-weight: 400;
+	margin: 0;
+}
+
+.control-section {
+	font-size: 24px;
+	line-height: 57px;
+	font-weight: 400;
+	margin: 0;
+}
+
+
+a.prevcurmonth {
+  /* color: #00B7FF; */
+  color: #07A890;
+  text-decoration: none;
+}
+a#currentmonth {
+  color: #4c4c4c;
+  text-decoration: none;
 }
 
 #myworkhours {
     font: 15px "Lucida Grande", monospace, sans-serif;
 }
 
+span#month_year {
+    color: #07A890;
+}

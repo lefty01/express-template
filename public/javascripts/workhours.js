@@ -119,6 +119,11 @@ $(document).ready(function() {
     }
   });
 
+  $('#currentmonth').click(function() {
+    thisMoment = moment();
+    $("#month_year").html(thisMonth + "/" + thisYear);
+    displayMonthlyStat(thisMonth, thisYear);
+  });
 
   var ckbox = $('#add_pause');
   $('input#add_pause').on('click',function () {

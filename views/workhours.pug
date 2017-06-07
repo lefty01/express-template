@@ -5,23 +5,32 @@ block headjs
   script(type="text/javascript", src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js")
 
 block content
-  h1= title
-  |Target: 7:36
 
-  br
-  br
+  div.workhours-page
+    h1 Working hours for 
+      span#month_year
+    |Daily Target: 7:36
+    br
+    |Weekly Target: 38h
 
-  a#prevmonth(href='#') &lt;Prev
-  |  Month 
-  a#nextmonth(href='#') Next&gt;
+    br
+    br
 
-  br
-  label
-    input(type="checkbox", id="add_pause" checked)
-    = " Tick to substract pause time"
-  br
+    div.control-section
+      a#prevmonth(class='prevcurmonth' href='#') &lt;Prev
+      a#currentmonth(href='#')  Month 
+      a#nextmonth(class='prevcurmonth' href='#') Next&gt;
 
-  h3 My Weeks / Working hours
-  div#month_year
-  ul#myworkhours
-    li loading ...
+    br
+    label
+      input(type="checkbox", id="add_pause" checked)
+      = " Tick to substract pause time"
+    br
+
+    h3 My Weeks / Working hours
+
+    ul#myworkhours
+      li loading ...
+
+    br
+    div#monthly_total
