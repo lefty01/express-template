@@ -2,19 +2,10 @@
 var whichMonth;
 var durations = {};
 
-// if integer value i is less then 10 (0..9) add leading zero (00..09)
-function padZero(i) {
-  if (i < 10) {
-    i = "0" + i;
-  }
-  return i;
-}
 
 //   if (db && db !== "null" && db !== "undefined") {
-
 function displayMonthlyStat(month, year) {
-  var pause = moment.duration({ minutes: 50});
-
+  var pause = moment.duration({ minutes: 50 });
 
   $.ajax('/workhours/' + year + '/' + month, {
     dataType: 'json',
@@ -50,41 +41,27 @@ function displayMonthlyStat(month, year) {
 // build dict with date 'yyyy-mm-dd' as key and start, start1, start2, ... end, times as value ?!
 //          allTimes[data[intItem].time.get]
 
-
-            // FIXME: use moment here ... get rid of padZero()?!
-            var itemDateTime = new Date(data[intItem].time);
-            var date = itemDateTime.toDateString();
-            var h = padZero(itemDateTime.getHours());
-            var m = padZero(itemDateTime.getMinutes());
-
             var itemDate = moment(data[intItem].time).format("ddd DD");
             var itemTime = moment(data[intItem].time).format("HH:mm");
             var startOrEnd = data[intItem].startOrEnd
             var total = '-';
             var totalNoPause = '-';
 
-            //allTimes[date].starts.push(data[intItem].time)
-            //arrLI.push('Time: ' + data[intItem].time + ' Type: ' + data[intItem].startOrEnd);
-
             if ("START" === data[intItem].startOrEnd) {
               var starttime = moment(data[intItem].time);
               // allTimes[date].starts.push(data[intItem].time)
-              arrLI.push("START: " + date + " - " + h + ":" + m);
+              //arrLI.push("START: " + date + " - " + h + ":" + m);
             } else {
               var endtime = moment(data[intItem].time);
-              var dNoPause = moment.utc(moment(endtime).diff(moment(starttime))).format("HH:mm");
-              var d = moment.utc(moment(endtime).diff(moment(starttime))).subtract(pause).format("HH:mm");
-
+              //var dNoPause = moment.utc(moment(endtime).diff(moment(starttime))).format("HH:mm");
               total = moment.utc(moment(endtime).diff(moment(starttime))).subtract(pause).format("HH:mm");
               totalNoPause = moment.utc(moment(endtime).diff(moment(starttime))).format("HH:mm");
 
               // add durations with/without pause to some global data structure so we can use it to toggle the displayed value
               //
-
-              arrLI.push("END:&nbsp;&nbsp; " + date + " - " + h + ":" + m + " worktime: <span id=\"duration_"+intItem+"\">" + dNoPause + "</span>");
+              //arrLI.push("END:&nbsp;&nbsp; " + date + " - " + h + ":" + m + " worktime: <span id=\"duration_"+intItem+"\">" + dNoPause + "</span>");
               console.log("item=" + intItem + " start="+starttime.format("HH:mm")+" - end="+endtime.format("HH:mm")+
-                          " diff: " + d + " ("+dNoPause+")");
-
+                          " diff: " + total + " (" + totalNoPause + "). _id=" + data[intItem]._id);
             }
 
             timetableHtml += '<tr><td>' + itemDate + '</td><td>' + itemTime +
@@ -92,20 +69,20 @@ function displayMonthlyStat(month, year) {
               '</td><td>' + total + '</td>';
 
             timetableHtml += '<td>' +
-			  '<div class="btn-group btn-actions">' +
-	  		  ' <button type="button" class="btn dropdown-toggle" id="action_' + intItem +
-              '" data-toggle="dropdown">Actions <i class="fa fa-angle-down"></i></button>' +
-			  ' <ul class="dropdown-menu">' +
-			  '  <li><a href="#"><i class="fa fa-edit"></i> Edit</a></li>' +
-		      '  <li><a href="#"><i class="fa fa-trash-o"></i> Delete</a></li></ul>' +
+              '<div class="btn-group btn-actions">' +
+              ' <button type="button" class="btn dropdown-toggle"' +
+              ' data-toggle="dropdown">Actions <i class="fa fa-angle-down"></i></button>' +
+              ' <ul class="dropdown-menu">' +
+              '  <li><a href="#"><i class="fa fa-edit"    id="' + intItem + '"></i> Edit</a></li>' +
+              '  <li><a href="#"><i class="fa fa-trash-o" id="' + intItem + '"></i> Delete</a></li></ul>' +
               '</div></td>';
 
             timetableHtml += '</tr>\n';
           }
-          strHTMLOutput = "<li>" + arrLI.join('</li><li>') + "</li>";
+          //strHTMLOutput = "<li>" + arrLI.join('</li><li>') + "</li>";
         }
       } else {
-        strHTMLOutput = "<li>You haven't added any times yet!</li>";
+        //strHTMLOutput = "<li>You haven't added any times yet!</li>";
         timetableHtml = "You haven't added any times yet!";
       }
       //$('#myworkhours').html(strHTMLOutput);
@@ -117,37 +94,58 @@ function displayMonthlyStat(month, year) {
 
 
 $(document).ready(function() {
+  // enable bootstrap tooltips (here used for prev/next month display)
+  $('[data-toggle="tooltip"]').tooltip();
+
   var strHTMLOutput = '';
   var thisMoment = moment();
+  var thisMonthYear = thisMoment.format('M/YYYY');
   var thisMonth = thisMoment.format('M');
   var thisYear  = thisMoment.format('YYYY');
+
+  // get prev month for tooltip
+  var prevMonthYearTT = moment().add(-1, 'M').format('M/YY');
+  var nextMonthYearTT = moment().format('M/YY');
+
   whichMonth = thisMonth;
   console.log("this month: " + thisMonth);
   console.log("this year: "  + thisYear);
-  $("#month_year").html(thisMonth + "/" + thisYear);
+  $("#month_year").html(thisMonthYear);
+  $("a#prevmonth").attr("title", prevMonthYearTT);
+  $("a#nextmonth").attr("title", nextMonthYearTT);
 
   // view previous or next month
   $("#prevmonth").click(function() {
+    nextMonthYearTT = thisMoment.format('M/YY');
     thisMoment.add(-1, 'M');
-    var prevMonth = thisMoment.format('M');
-    var prevYear = thisMoment.format('YYYY');
-    console.log("prev  month/year: " + prevMonth + "/" + prevYear);
-    $("#month_year").html(prevMonth + "/" + prevYear);
-    displayMonthlyStat(prevMonth, prevYear);
+    var prevMonthYear = thisMoment.format('M/YYYY');
+    prevMonthYearTT = moment(thisMoment).add(-1, 'M').format('M/YY');
+
+    console.log("prev  month/year: " + prevMonthYear);
+    $("#month_year").html(prevMonthYear);
+    $("a#prevmonth").attr("title", prevMonthYearTT);
+    $("a#nextmonth").attr("title", nextMonthYearTT);
+
+    displayMonthlyStat(thisMoment.format('M'), thisMoment.format('YYYY'));
   });
 
   $('#nextmonth').click(function() {
     thisMoment.add(1, 'M');
     var nextMonth = thisMoment.format('M');
     var nextYear = thisMoment.format('YYYY');
+    var nextMonthYear = thisMoment.format('M/YY');
 
     if (nextMonth > thisMonth && nextYear >= thisYear) {
       thisMoment.add(-1, 'M');
       console.log("cannot look into the future!");
     }
     else {
+      prevMonthYearTT = moment(thisMoment).add(-1, 'M').format('M/YY');
+      nextMonthYearTT = moment(thisMoment).add( 1, 'M').format('M/YY');
       console.log("next  month/year: " + nextMonth + "/" + nextYear);
       $("#month_year").html(nextMonth + "/" + nextYear);
+      $("a#prevmonth").attr("title", prevMonthYearTT);
+      $("a#nextmonth").attr("title", nextMonthYearTT);
       displayMonthlyStat(nextMonth, nextYear);
     }
   });
@@ -172,8 +170,16 @@ $(document).ready(function() {
   //   $("#duration_0").text("xxx");
   // });
 
+  //$("[id^=action]").click(function() {
+  // $(".dropdown-menu li a").on('click', function () {
+  //   alert('fa edit');
+  // });
+
+  $(document).on('click', '.dropdown-menu li a', function() {
+    //$(this).parent().parent().parent().find('.datebox').val($(this).html());
+    alert($(this).html());
+  });
 
   displayMonthlyStat(thisMonth, thisYear);
 
 });
-

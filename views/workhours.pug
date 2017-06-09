@@ -16,9 +16,11 @@ block content
     br
 
     div.control-section
-      a#prevmonth(class='prevcurmonth' href='#') &lt;Prev
+      a#prevmonth(class='prevcurmonth' href='#' title="Previous")
+        i.fa.fa-chevron-left(aria-hidden="true")
       a#currentmonth(href='#')  Month 
-      a#nextmonth(class='prevcurmonth' href='#') Next&gt;
+      a#nextmonth(class='prevcurmonth' href='#' title="Next")
+        i.fa.fa-chevron-right(aria-hidden="true")
 
     br
     label
