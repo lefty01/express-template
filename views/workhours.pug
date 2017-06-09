@@ -1,8 +1,5 @@
 extends layout
 
-block headjs
-  script(type="text/javascript", src="/javascripts/workhours.js")
-  script(type="text/javascript", src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js")
 
 block content
 
@@ -12,6 +9,8 @@ block content
     |Daily Target: 7:36
     br
     |Weekly Target: 38h
+    br
+    |Default Pause: 50min
 
     br
     br
@@ -29,8 +28,17 @@ block content
 
     h3 My Weeks / Working hours
 
-    ul#myworkhours
-      li loading ...
+    div#timetable
+      | Loading ...
+      div.table-responsive
+     
 
     br
     div#monthly_total
+
+
+  //script(type="text/javascript", src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js")
+  script(type="text/javascript", src="//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js")
+  script(type="text/javascript", src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js")
+  script(type="text/javascript", src="/javascripts/bootstrap.min.js")
+  script(type="text/javascript", src="/javascripts/workhours.js")

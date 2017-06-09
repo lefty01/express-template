@@ -10,9 +10,11 @@ function padZero(i) {
   return i;
 }
 
+//   if (db && db !== "null" && db !== "undefined") {
 
 function displayMonthlyStat(month, year) {
-  var pause = moment.duration("00:50:00");
+  var pause = moment.duration({ minutes: 50});
+
 
   $.ajax('/workhours/' + year + '/' + month, {
     dataType: 'json',
@@ -20,6 +22,19 @@ function displayMonthlyStat(month, year) {
       console.log("ajax error :(");
     },
     success: function(data) {
+      var timetableHtml = '<table class="table table-hover"\n>' +
+        '<thead>' +
+        ' <tr>' +
+        '  <th>Date</th>' +
+        '  <th>Time</th>' +
+        '  <th>Start/End</th>' +
+        '  <th>Pause</th>' +
+        '  <th>Total</th>' +
+        '  <th>Actions</th>' +
+        ' </tr>' +
+        '</thead>' +
+        '<tbody>\n';
+
       if (data.length > 0) {
         if (data.status && data.status === 'error') {
           strHTMLOutput = "<li>Error: " + data.error + "</li>";
@@ -27,6 +42,7 @@ function displayMonthlyStat(month, year) {
           var intItem;
           var totalItems = data.length;
           var arrLI = [];
+          var tableArray = [];
           var allTimes = {};
 
           for (intItem = totalItems - 1; intItem >= 0; intItem--) {
@@ -36,10 +52,16 @@ function displayMonthlyStat(month, year) {
 
 
             // FIXME: use moment here ... get rid of padZero()?!
-            var d = new Date(data[intItem].time);
-            var date = d.toDateString();
-            var h = padZero(d.getHours());
-            var m = padZero(d.getMinutes());
+            var itemDateTime = new Date(data[intItem].time);
+            var date = itemDateTime.toDateString();
+            var h = padZero(itemDateTime.getHours());
+            var m = padZero(itemDateTime.getMinutes());
+
+            var itemDate = moment(data[intItem].time).format("ddd DD");
+            var itemTime = moment(data[intItem].time).format("HH:mm");
+            var startOrEnd = data[intItem].startOrEnd
+            var total = '-';
+            var totalNoPause = '-';
 
             //allTimes[date].starts.push(data[intItem].time)
             //arrLI.push('Time: ' + data[intItem].time + ' Type: ' + data[intItem].startOrEnd);
@@ -52,35 +74,46 @@ function displayMonthlyStat(month, year) {
               var endtime = moment(data[intItem].time);
               var dNoPause = moment.utc(moment(endtime).diff(moment(starttime))).format("HH:mm");
               var d = moment.utc(moment(endtime).diff(moment(starttime))).subtract(pause).format("HH:mm");
+
+              total = moment.utc(moment(endtime).diff(moment(starttime))).subtract(pause).format("HH:mm");
+              totalNoPause = moment.utc(moment(endtime).diff(moment(starttime))).format("HH:mm");
+
               // add durations with/without pause to some global data structure so we can use it to toggle the displayed value
               //
 
               arrLI.push("END:&nbsp;&nbsp; " + date + " - " + h + ":" + m + " worktime: <span id=\"duration_"+intItem+"\">" + dNoPause + "</span>");
               console.log("item=" + intItem + " start="+starttime.format("HH:mm")+" - end="+endtime.format("HH:mm")+
                           " diff: " + d + " ("+dNoPause+")");
+
             }
+
+            timetableHtml += '<tr><td>' + itemDate + '</td><td>' + itemTime +
+              '</td><td>' + startOrEnd + '</td><td>' + pause.asMinutes() +
+              '</td><td>' + total + '</td>';
+
+            timetableHtml += '<td>' +
+			  '<div class="btn-group btn-actions">' +
+	  		  ' <button type="button" class="btn dropdown-toggle" id="action_' + intItem +
+              '" data-toggle="dropdown">Actions <i class="fa fa-angle-down"></i></button>' +
+			  ' <ul class="dropdown-menu">' +
+			  '  <li><a href="#"><i class="fa fa-edit"></i> Edit</a></li>' +
+		      '  <li><a href="#"><i class="fa fa-trash-o"></i> Delete</a></li></ul>' +
+              '</div></td>';
+
+            timetableHtml += '</tr>\n';
           }
           strHTMLOutput = "<li>" + arrLI.join('</li><li>') + "</li>";
         }
       } else {
         strHTMLOutput = "<li>You haven't added any times yet!</li>";
+        timetableHtml = "You haven't added any times yet!";
       }
-      $('#myworkhours').html(strHTMLOutput);
+      //$('#myworkhours').html(strHTMLOutput);
+      $('#timetable').html(timetableHtml);
     }
   });
 
 }
-
-
-// function prevNext(whichMoment, prevNxt) {
-//   //alert(thisarg);
-//   newMoment = moment(whichMoment).add(prevNxt, 'months');
-//   var thisMonth = newMoment.format('M');
-//   var thisYear  = newMoment.format('YYYY');
-//   console.log("this month: " + thisMonth);
-//   console.log("this year: "  + thisYear);
-  
-// }
 
 
 $(document).ready(function() {
