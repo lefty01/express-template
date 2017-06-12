@@ -13,7 +13,7 @@ function displayMonthlyStat(month, year) {
       console.log("ajax error :(");
     },
     success: function(data) {
-      var timetableHtml = '<table class="table table-hover"\n>' +
+      var timetableHtml = '<table class="table table-bordered table-condensed table-hover" id="worktime-table"\n>' +
         '<thead>' +
         ' <tr>' +
         '  <th>Date</th>' +
@@ -96,6 +96,7 @@ function displayMonthlyStat(month, year) {
 $(document).ready(function() {
   // enable bootstrap tooltips (here used for prev/next month display)
   $('[data-toggle="tooltip"]').tooltip();
+  $('#worktime-table').DataTable();
 
   var strHTMLOutput = '';
   var thisMoment = moment();

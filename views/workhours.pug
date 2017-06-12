@@ -30,10 +30,27 @@ block content
 
     h3 My Weeks / Working hours
 
-    div#timetable
-      | Loading ...
-      div.table-responsive
-     
+    div.table-responsive
+      div#timetable
+        | Loading ...
+
+    nav(aria-label="worktime pagination")
+      div.custom-pagination
+        ul.pagination.pull-right
+          li
+            a(href="#" aria-label="Previous")
+              span(aria-hidden="true") &laquo;
+          li.active
+            a(href="#") 1
+          li
+            a(href="#") 2
+          li
+            a(href="#") 3
+          li
+            a(href="#") 4
+          li
+            a(href="#" aria-label="Next")
+              span(aria-hidden="true") &raquo;
 
     br
     div#monthly_total
@@ -42,5 +59,9 @@ block content
   //script(type="text/javascript", src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js")
   script(type="text/javascript", src="//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js")
   script(type="text/javascript", src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js")
+
+  script(type="text/javascript", src="https://cdn.datatables.net/v/bs/jq-2.2.4/dt-1.10.15/af-2.2.0/datatables.min.js")
+  script(type="text/javascript", src="dataTables.scrollingPagination.js")
+
   script(type="text/javascript", src="/javascripts/bootstrap.min.js")
   script(type="text/javascript", src="/javascripts/workhours.js")

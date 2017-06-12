@@ -21,11 +21,12 @@ body {
 	overflow: hidden;
 	position: absolute;
 	/* width: 460px; */
-	top: 10%;
-	left: 10%;
+	top: 1%;
+	left: 20%;
 	/* -webkit-transform: translateX(-50%) translateY(-50%); */
  	/* -ms-transform: translateX(-50%) translateY(-50%); */
  	/* 	transform: translateX(-50%) translateY(-50%); */
+    padding-bottom: 50px;
 }
 
 .workhours-page h1 {
@@ -142,3 +143,45 @@ span#month_year {
 .table .btn-actions .dropdown-menu > li > a .fa {
 	padding-right: 3px;
 }
+
+
+/*******************************************************************************************************************
+*************** CUSTOM PAGINATION **********************************************************************************
+********************************************************************************************************************/
+.custom-pagination {
+        overflow: hidden;
+}
+
+.custom-pagination .pagination {
+        margin: 0;
+        border-radius: 0;
+}
+
+
+.custom-pagination .pagination > li > a,
+.custom-pagination .pagination > li > span {
+        background: #fafafa;
+        color: #616161;
+        font-size: 14px;
+        line-height: 21px;
+        padding: 6px 14px;
+}
+
+.custom-pagination .pagination > .active > a,
+.custom-pagination .pagination > .active > span,
+.custom-pagination .pagination > .active > a:hover,
+.custom-pagination .pagination > .active > span:hover,
+.custom-pagination .pagination > .active > a:focus,
+.custom-pagination .pagination > .active > span:focus {
+        border-color: #07a890;
+        background: #07a890;
+        color: #fff;
+}
+
+.custom-pagination .pagination > li:first-child > a,
+.custom-pagination .pagination > li:first-child > span,
+.custom-pagination .pagination > li:last-child > a,
+.custom-pagination .pagination > li:last-child > span {
+        border-radius: 0;
+}
+
