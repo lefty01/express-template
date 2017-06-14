@@ -74,6 +74,7 @@ function displayMonthlyStat(month, year) {
               ' data-toggle="dropdown">Actions <i class="fa fa-angle-down"></i></button>' +
               ' <ul class="dropdown-menu">' +
               '  <li><a href="#"><i class="fa fa-edit"    id="' + intItem + '"></i> Edit</a></li>' +
+              '  <li><a href="#"><i class="fa fa-plus"    id="' + intItem + '"></i> Insert</a></li>' +
               '  <li><a href="#"><i class="fa fa-trash-o" id="' + intItem + '"></i> Delete</a></li></ul>' +
               '</div></td>';
 

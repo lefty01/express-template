@@ -10,7 +10,9 @@ body {
     font-size: 12px;
     line-height: 18px;
     font-weight: 400;
-    background: #fff;
+    /* background: #fff; */
+    /* background: #e0eefd; */
+    background: rgba(219, 246, 249, 0.58);
     color: #4c4c4c;
     padding: 0;
     margin: 0;
@@ -26,7 +28,7 @@ body {
 	/* -webkit-transform: translateX(-50%) translateY(-50%); */
  	/* -ms-transform: translateX(-50%) translateY(-50%); */
  	/* 	transform: translateX(-50%) translateY(-50%); */
-    padding-bottom: 50px;
+    /* padding-bottom: 50px; */
 }
 
 .workhours-page h1 {
@@ -66,13 +68,26 @@ span#month_year {
 /*******************************************************************************************************************
 *************** TABLES *********************************************************************************************
 ********************************************************************************************************************/
+
+.table-responsive {
+    padding-bottom: 60px;
+}
+
 .table > tbody > tr  {
     font-family: "Roboto Mono", sans-serif;
-	background: #fff;
+	/* background: #fff; */
 }
 
 .table-striped > tbody > tr:nth-of-type(2n+1) {
-	background: #fafafa;
+	/* background: #fafafa; */
+}
+.table-hover>tbody>tr:hover {
+    background-color: #b2dfe6;
+}
+.dropdown-menu>li>a:hover,.dropdown-menu>li>a:focus {
+    /* text-decoration: none; */
+    /* color: #262626; */
+    background-color: #b2dfe6
 }
 
 .table > thead > tr > th {
@@ -91,6 +106,7 @@ span#month_year {
 	color: #616161;
 	font-size: 14px;
 	line-height: 21px;
+	font-weight: 500;
 }
 
 .table .label {
@@ -105,17 +121,20 @@ span#month_year {
 }
 
 .table .btn-actions .btn {
-	background: #fafafa;
+    /* background: #e0eefd; */
+    background: rgba(219, 246, 249, 0.58);
 	border-radius: 0;
 	box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.2);
 	font-size: 14px;
 	line-height: 21px;
 	color: #616161;
+	font-weight: 500;
     padding: 0;
 }
 
 .table .btn-actions .btn:hover {
-	background: #ebebeb;
+	background: #b2dfe6;
+    /* background: #e0eefd; */
 }
 
 .table .btn-actions .btn .fa {
@@ -123,7 +142,8 @@ span#month_year {
 }
 
 .table .btn-actions .dropdown-menu {
-	background: #fafafa;
+    /* background: #e0eefd; */
+    background: rgba(219, 246, 249, 0.58);
 	border: none;
 	left: auto;
 	right: 0;
