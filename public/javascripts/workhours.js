@@ -73,9 +73,9 @@ function displayMonthlyStat(month, year) {
               ' <button type="button" class="btn dropdown-toggle"' +
               ' data-toggle="dropdown">Actions <i class="fa fa-angle-down"></i></button>' +
               ' <ul class="dropdown-menu">' +
-              '  <li><a href="#"><i class="fa fa-edit"    id="' + intItem + '"></i> Edit</a></li>' +
+              '  <li><a href="#"><i class="fa fa-edit"    id="' + data[intItem]._id + '"></i> Edit</a></li>' +
               '  <li><a href="#"><i class="fa fa-plus"    id="' + intItem + '"></i> Insert</a></li>' +
-              '  <li><a href="#"><i class="fa fa-trash-o" id="' + intItem + '"></i> Delete</a></li></ul>' +
+              '  <li><a href="#"><i class="fa fa-trash-o" id="' + data[intItem]._id + '"></i> Delete</a></li></ul>' +
               '</div></td>';
 
             timetableHtml += '</tr>\n';
@@ -92,6 +92,28 @@ function displayMonthlyStat(month, year) {
   });
 
 }
+
+function removeEntry(id) {
+  var confirmation = confirm('Are you sure you want to delete this entry?');
+  if (confirmation === true) {
+    $.ajax('/workhours/' + id, {
+      type: 'DELETE',
+      error: function(data) {
+        console.log("ajax error :( " + data);
+      },
+      success: function(data) {
+        console.log("OK :) " + data);
+      }
+    });
+  } else {
+    return false;
+  }
+  return true;
+}
+
+
+
+
 
 
 $(document).ready(function() {
@@ -172,16 +194,20 @@ $(document).ready(function() {
   //   $("#duration_0").text("xxx");
   // });
 
-  //$("[id^=action]").click(function() {
-  // $(".dropdown-menu li a").on('click', function () {
-  //   alert('fa edit');
-  // });
 
   $(document).on('click', '.dropdown-menu li a', function() {
-    //$(this).parent().parent().parent().find('.datebox').val($(this).html());
-    alert($(this).html());
+    var matches = $(this).html().match(/<i class="fa fa-.*" id="([a-f0-9]+)"><\/i> (Delete|Edit|Insert)/);
+
+    if ("Delete" === matches[2]) {
+      //alert("going to delete id: " + matches[1]);
+      removeEntry(matches[1]);
+    }
+    else if ("Edit" === matches[2]) {
+      //alert("going to edit id: " + matches[1]);
+    }
+    displayMonthlyStat(thisMonth, thisYear);
   });
 
-  displayMonthlyStat(thisMonth, thisYear);
 
+  displayMonthlyStat(thisMonth, thisYear);
 });

@@ -92,7 +92,7 @@ router.get('/workhours', function(req, res, nxt) {
                 });
 });
 
-
+// Read ... (cRud)
 router.get('/workhours/:year/:month', function(req, res) {
   // month in moment is 0 based, so 9 is actually october, subtract 1 to compensate
   // array is 'year', 'month', 'day', etc
@@ -126,6 +126,41 @@ router.get('/workhours/:year/:month', function(req, res) {
                     res.json(hours);
                   }
                 });
+});
+
+// Delete ... (cruD)
+router.delete('/workhours/:id', function(req, res, next) {
+//  if (req.user && (req.user.userid !== 'undefined')) { // => auth!!!
+	console.log("deleting: " + req.params.id);
+
+    WorkHour.findByIdAndRemove(req.params.id, function(err, entry) {
+      if (err) {
+        var resp = {
+          message: "error deleting workhour entry!",
+          id: entry._id
+        }
+        // res.status(500).send(err);
+      } else {
+        var resp = {
+          message: "workhour entry deleted",
+          timestamp: entry.time,
+          id: entry._id
+        };
+      }
+      res.send(resp);
+    });
+//  }
+});
+
+
+// Update ... (crUd)
+router.put('/workhours/:id', function(req, res, next) {
+
+});
+
+// Create ... (Crud)
+router.post('/workhours/', function(req, res, next) {
+
 });
 
 
