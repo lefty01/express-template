@@ -48,11 +48,11 @@ body {
 
 a.prevcurmonth {
   /* color: #00B7FF; */
-  color: #07A890;
+  color: #3efde1;
   text-decoration: none;
 }
 a#currentmonth {
-  color: #4c4c4c;
+  color: #ffffff;
   text-decoration: none;
 }
 
@@ -61,7 +61,8 @@ a#currentmonth {
 }
 
 span#month_year {
-    color: #07A890;
+    /* color: #07A890; */
+    color: #ffffff;
 }
 
 
@@ -94,7 +95,8 @@ span#month_year {
 	font-size: 14px;
 	line-height: 21px;
 	font-weight: 500;
-	color: #07a890;
+	/* color: #07a890; */
+	color: #fff;
 	padding: 15px;
 	text-transform: uppercase;
 	border-bottom: 1px solid #d7d7d7;
@@ -103,7 +105,7 @@ span#month_year {
 .table > tbody > tr > td {
 	border-top: none;
 	padding: 12px 18px;
-	color: #616161;
+	color: #000000;
 	font-size: 14px;
 	line-height: 21px;
 	font-weight: 500;
@@ -123,17 +125,17 @@ span#month_year {
 .table .btn-actions .btn {
     /* background: #e0eefd; */
     background: rgba(219, 246, 249, 0.58);
-	border-radius: 0;
-	box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.2);
-	font-size: 14px;
-	line-height: 21px;
-	color: #616161;
-	font-weight: 500;
+    border-radius: 5;
+    box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.2);
+    font-size: 14px;
+    line-height: 21px;
+    color: #616161;
+    font-weight: 500;
     padding: 0;
 }
 
 .table .btn-actions .btn:hover {
-	background: #b2dfe6;
+    background: #b2dfe6;
     /* background: #e0eefd; */
 }
 
@@ -144,13 +146,13 @@ span#month_year {
 .table .btn-actions .dropdown-menu {
     /* background: #e0eefd; */
     background: rgba(219, 246, 249, 0.58);
-	border: none;
-	left: auto;
-	right: 0;
-	margin: 0;
-	border-radius: 0;
-	box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.2);
-	min-width: 130px;
+    border: none;
+    left: auto;
+    right: 0;
+    margin: 0;
+    border-radius: 5;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.2);
+    min-width: 130px;
 }
 
 .table .btn-actions .dropdown-menu > li > a {

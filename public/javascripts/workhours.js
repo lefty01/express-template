@@ -1,5 +1,5 @@
 //var moment = require('moment');
-var whichMonth;
+//var whichMonth;
 var durations = {};
 
 
@@ -43,7 +43,7 @@ function displayMonthlyStat(month, year) {
 
             var itemDate = moment(data[intItem].time).format("ddd DD");
             var itemTime = moment(data[intItem].time).format("HH:mm");
-            var startOrEnd = data[intItem].startOrEnd
+            var startOrEnd = data[intItem].startOrEnd;
             var total = '-';
             var totalNoPause = '-';
 
@@ -111,8 +111,25 @@ function removeEntry(id) {
   return true;
 }
 
+function editEntry(id) {
+    alert("going to edit id: " + id);
+    
+  //   $.ajax('/workhours/' + id, {
+  //     type: 'DELETE',
+  //     error: function(data) {
+  //       console.log("ajax error :( " + data);
+  //     },
+  //     success: function(data) {
+  //       console.log("OK :) " + data);
+  //     }
+  //   });
+  //   return false;
+    return true;
+}
 
-
+function insertEntry(month) {
+    alert("going to insert new entry for month: " + month);
+}
 
 
 
@@ -131,7 +148,7 @@ $(document).ready(function() {
   var prevMonthYearTT = moment().add(-1, 'M').format('M/YY');
   var nextMonthYearTT = moment().format('M/YY');
 
-  whichMonth = thisMonth;
+  //whichMonth = thisMonth;
   console.log("this month: " + thisMonth);
   console.log("this year: "  + thisYear);
   $("#month_year").html(thisMonthYear);
@@ -176,6 +193,10 @@ $(document).ready(function() {
 
   $('#currentmonth').click(function() {
     thisMoment = moment();
+    nextMonthYearTT = thisMoment.add( 0, 'M').format('M/YY');
+    prevMonthYearTT = thisMoment.add(-1, 'M').format('M/YY');
+    $("a#prevmonth").attr("title", prevMonthYearTT);
+    $("a#nextmonth").attr("title", nextMonthYearTT);
     $("#month_year").html(thisMonth + "/" + thisYear);
     displayMonthlyStat(thisMonth, thisYear);
   });
@@ -203,7 +224,10 @@ $(document).ready(function() {
       removeEntry(matches[1]);
     }
     else if ("Edit" === matches[2]) {
-      //alert("going to edit id: " + matches[1]);
+	editEntry(matches[1]);
+    }
+    else if ("Insert" === matches[2]) {
+	insertEntry(thisMonth);
     }
     displayMonthlyStat(thisMonth, thisYear);
   });

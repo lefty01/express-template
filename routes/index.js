@@ -103,6 +103,7 @@ router.get('/workhours/:year/:month', function(req, res) {
   console.log(startDate.toDate());
   console.log(endDate.toDate());
 
+  // find all entries for one given month (between first and last day of month)
   WorkHour.find({
     $and: [
       {
@@ -111,10 +112,11 @@ router.get('/workhours/:year/:month', function(req, res) {
           $lt: endDate.toDate()
         }
       },
-      {
+      { // ignore any other string for startOrEnd field
         $or: [{'startOrEnd' : 'START'}, {'startOrEnd' : 'END'}]
       }
     ]},
+		// only return time and startOrEnd, then sort by time ...
                 'time startOrEnd',
                 { sort: [['time', -1]] },
                 function(err, hours) {
@@ -131,14 +133,14 @@ router.get('/workhours/:year/:month', function(req, res) {
 // Delete ... (cruD)
 router.delete('/workhours/:id', function(req, res, next) {
 //  if (req.user && (req.user.userid !== 'undefined')) { // => auth!!!
-	console.log("deleting: " + req.params.id);
+    console.log("deleting: " + req.params.id);
 
     WorkHour.findByIdAndRemove(req.params.id, function(err, entry) {
       if (err) {
         var resp = {
           message: "error deleting workhour entry!",
           id: entry._id
-        }
+        };
         // res.status(500).send(err);
       } else {
         var resp = {
@@ -160,6 +162,15 @@ router.put('/workhours/:id', function(req, res, next) {
 
 // Create ... (Crud)
 router.post('/workhours/', function(req, res, next) {
+    if (req.entry && (req.entry !== 'undefined')) {
+	// validate input ...
+
+	WorkHour.save(function (err, data) {
+	    if (err) console.log(err);
+	    else console.log('Saved ', data);
+	});
+
+    }
 
 });
 
