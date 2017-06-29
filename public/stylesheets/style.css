@@ -10,10 +10,10 @@ body {
     font-size: 12px;
     line-height: 18px;
     font-weight: 400;
-    /* background: #fff; */
-    /* background: #e0eefd; */
-    background: rgba(219, 246, 249, 0.58);
-    color: #4c4c4c;
+    background: #4e95bd;
+    /* background: rgba(219, 246, 249, 0.58); */
+    /* color: #4c4c4c; */
+    color: #ffffff;
     padding: 0;
     margin: 0;
 }
