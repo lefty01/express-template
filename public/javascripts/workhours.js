@@ -2,10 +2,17 @@
 //var whichMonth;
 var durations = {};
 
+function isDef(what) {
+    if (what && what !== "null" && what !== "undefined") {
+	return true;
+    }
+    return false;
+}
 
 //   if (db && db !== "null" && db !== "undefined") {
 function displayMonthlyStat(month, year) {
   var pause = moment.duration({ minutes: 50 });
+  var monthly_total = moment.duration({hour:  0, minute:  0});
 
   $.ajax('/workhours/' + year + '/' + month, {
     dataType: 'json',
@@ -45,6 +52,7 @@ function displayMonthlyStat(month, year) {
             var itemTime = moment(data[intItem].time).format("HH:mm");
             var startOrEnd = data[intItem].startOrEnd;
             var total = '-';
+            var total_moment_d = moment.duration({hour:  0, minute:  0});
             var totalNoPause = '-';
 
             if ("START" === data[intItem].startOrEnd) {
@@ -53,15 +61,23 @@ function displayMonthlyStat(month, year) {
               //arrLI.push("START: " + date + " - " + h + ":" + m);
             } else {
               var endtime = moment(data[intItem].time);
+              
               //var dNoPause = moment.utc(moment(endtime).diff(moment(starttime))).format("HH:mm");
               total = moment.utc(moment(endtime).diff(moment(starttime))).subtract(pause).format("HH:mm");
+              total_moment_d = moment.utc(moment(endtime).diff(moment(starttime))).subtract(pause);
               totalNoPause = moment.utc(moment(endtime).diff(moment(starttime))).format("HH:mm");
+
+              monthly_total.add(total_moment_d.duration);
+              console.log("monthly total: " + moment(monthly_total).format("HH::mm"));
 
               // add durations with/without pause to some global data structure so we can use it to toggle the displayed value
               //
               //arrLI.push("END:&nbsp;&nbsp; " + date + " - " + h + ":" + m + " worktime: <span id=\"duration_"+intItem+"\">" + dNoPause + "</span>");
-              console.log("item=" + intItem + " start="+starttime.format("HH:mm")+" - end="+endtime.format("HH:mm")+
-                          " diff: " + total + " (" + totalNoPause + "). _id=" + data[intItem]._id);
+              // console.log("item=" + intItem + " start="+starttime.format("HH:mm")+" - end="+endtime.format("HH:mm")+
+              //             " diff: " + total + " (" + totalNoPause + "). _id=" + data[intItem]._id);
+		console.log("item=" + intItem + " start=" + (isDef(starttime) ? starttime.format("HH:mm") : "n/a")
+			    + " - end=" + (isDef(endtime) ? endtime.format("HH:mm") : "n/a") +
+                            " diff: " + total + " (" + totalNoPause + "). _id=" + data[intItem]._id);
             }
 
             timetableHtml += '<tr><td>' + itemDate + '</td><td>' + itemTime +
