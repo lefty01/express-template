@@ -82,7 +82,7 @@ function displayMonthlyStat(month, year) {
 
             timetableHtml += '<tr><td>' + itemDate + '</td><td>' + itemTime +
               '</td><td>' + startOrEnd + '</td><td>' + pause.asMinutes() +
-              '</td><td>' + total + '</td>';
+              '</td><td id="total_' + intItem + '">' + total + '</td>';
 
             timetableHtml += '<td>' +
               '<div class="btn-group btn-actions">' +
@@ -90,7 +90,7 @@ function displayMonthlyStat(month, year) {
               ' data-toggle="dropdown">Actions <i class="fa fa-angle-down"></i></button>' +
               ' <ul class="dropdown-menu">' +
               '  <li><a href="#"><i class="fa fa-edit"    id="' + data[intItem]._id + '"></i> Edit</a></li>' +
-              '  <li><a href="#"><i class="fa fa-plus"    id="' + intItem + '"></i> Insert</a></li>' +
+             // '  <li><a href="#"><i class="fa fa-plus"    id="' + intItem + '"></i> Insert</a></li>' +
               '  <li><a href="#"><i class="fa fa-trash-o" id="' + data[intItem]._id + '"></i> Delete</a></li></ul>' +
               '</div></td>';
 
@@ -219,13 +219,15 @@ $(document).ready(function() {
 
   var ckbox = $('#add_pause');
   $('input#add_pause').on('click',function () {
-    if ($('#add_pause').is(':checked')) {
-      //alert('You have Checked it');
-      $("#duration_43").text("checked");
-    } else {
-      //alert('You Un-Checked it');
-      $("#duration_43").text("UN-checked");
-    }
+      if ($('#add_pause').is(':checked')) {
+	  //alert('You have Checked it');
+	  console.log("Show total with Pause time substracted");
+	  $("#duration_43").text("checked");
+      } else {
+	  //alert('You Un-Checked it');
+	  console.log("Show total without Pause!");
+	  $("#duration_43").text("UN-checked");
+      }
   });
   // $('#add_pause').click(function() {
   //   $("#duration_0").text("xxx");

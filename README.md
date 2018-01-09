@@ -31,3 +31,23 @@ case "$1" in
 	curl -d 'startOrEnd=START' localhost:3030/workhour
 	;;
 esac
+
+Update for Ubuntu 16.04 using systemd:
+
+aloeff@p-fifty:/lib/systemd/system-sleep $ cat worktime 
+#!/bin/sh
+set -e
+
+if [ "$2" = "suspend" ] || [ "$2" = "hybrid-sleep" ]; then
+    case "$1" in
+        pre)
+		logger -t "log-work" "WORK END (suspend)"
+		curl -d 'startOrEnd=END' localhost:3030/workhour
+		;;
+        post)
+                logger -t "log-work" "WORK START (resume)"
+                curl -d 'startOrEnd=START' localhost:3030/workhour
+                ;;
+    esac
+fi
+
