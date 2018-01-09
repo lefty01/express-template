@@ -1,6 +1,8 @@
 //var moment = require('moment');
 //var whichMonth;
-var durations = {};
+//var durations = {};
+var allVldTotals = {}; // contains valid totals (that is we have start & end) with and without pause
+
 
 function isDef(what) {
     if (what && what !== "null" && what !== "undefined") {
@@ -11,8 +13,9 @@ function isDef(what) {
 
 //   if (db && db !== "null" && db !== "undefined") {
 function displayMonthlyStat(month, year) {
-  var pause = moment.duration({ minutes: 50 });
-  var monthly_total = moment.duration({hour:  0, minute:  0});
+    var pause = moment.duration({ minutes: 50 });
+    var monthly_total = moment.duration({hour:  0, minute:  0});
+//    var timesPerDay = new Map();
 
   $.ajax('/workhours/' + year + '/' + month, {
     dataType: 'json',
@@ -39,45 +42,59 @@ function displayMonthlyStat(month, year) {
         } else {
           var intItem;
           var totalItems = data.length;
-          var arrLI = [];
-          var tableArray = [];
-          var allTimes = {};
 
           for (intItem = totalItems - 1; intItem >= 0; intItem--) {
-
-// build dict with date 'yyyy-mm-dd' as key and start, start1, start2, ... end, times as value ?!
-//          allTimes[data[intItem].time.get]
-
             var itemDate = moment(data[intItem].time).format("ddd DD");
             var itemTime = moment(data[intItem].time).format("HH:mm");
             var startOrEnd = data[intItem].startOrEnd;
             var total = '-';
-            var total_moment_d = moment.duration({hour:  0, minute:  0});
+            //var total_moment_d = moment.duration({hour:  0, minute:  0});
             var totalNoPause = '-';
 
             if ("START" === data[intItem].startOrEnd) {
-              var starttime = moment(data[intItem].time);
-              // allTimes[date].starts.push(data[intItem].time)
-              //arrLI.push("START: " + date + " - " + h + ":" + m);
+		var starttime = moment(data[intItem].time);
+
+		// if (isDef(timesPerDay.get(itemDate)) && isDef(timesPerDay[itemDate].START)) {
+		//     console.log("START exist for day: " + itemDate);
+		// } else {
+		//     console.log("add START for day: " + itemDate);
+		//     timesPerDay[itemDate] = {
+		// 	START: starttime
+		//     };
+		// }
+
             } else {
               var endtime = moment(data[intItem].time);
+		// if (isDef(timesPerDay[itemDate])  && isDef(timesPerDay[itemDate].END)) {
+		//     console.log("END exists for day: " + itemDate);
+		// } else {
+		//     console.log("add END for day: " + itemDate);
+		//     timesPerDay[itemDate] = {
+		// 	END: endtime
+		//     };
+		// }
               
               //var dNoPause = moment.utc(moment(endtime).diff(moment(starttime))).format("HH:mm");
               total = moment.utc(moment(endtime).diff(moment(starttime))).subtract(pause).format("HH:mm");
               total_moment_d = moment.utc(moment(endtime).diff(moment(starttime))).subtract(pause);
               totalNoPause = moment.utc(moment(endtime).diff(moment(starttime))).format("HH:mm");
 
-              monthly_total.add(total_moment_d.duration);
+              // add total times with/without pause to some global data structure so we can use it to toggle the displayed value
+              if (isDef(total) && isDef(totalNoPause)) {
+                allVldTotals[intItem] = {
+                  total: total,
+                  totalNoPause: totalNoPause
+                };
+		  //var total_moment_d = moment.duration({hour:  0, minute:  0});
+		  //monthly_total.add(moment.utc(moment(endtime).diff(moment(starttime))).subtract(pause).duration);
+              }
+
+              //monthly_total.add(total_moment_d.duration);
               console.log("monthly total: " + moment(monthly_total).format("HH::mm"));
 
-              // add durations with/without pause to some global data structure so we can use it to toggle the displayed value
-              //
-              //arrLI.push("END:&nbsp;&nbsp; " + date + " - " + h + ":" + m + " worktime: <span id=\"duration_"+intItem+"\">" + dNoPause + "</span>");
-              // console.log("item=" + intItem + " start="+starttime.format("HH:mm")+" - end="+endtime.format("HH:mm")+
-              //             " diff: " + total + " (" + totalNoPause + "). _id=" + data[intItem]._id);
-		console.log("item=" + intItem + " start=" + (isDef(starttime) ? starttime.format("HH:mm") : "n/a")
-			    + " - end=" + (isDef(endtime) ? endtime.format("HH:mm") : "n/a") +
-                            " diff: " + total + " (" + totalNoPause + "). _id=" + data[intItem]._id);
+              console.log("item=" + intItem + " start=" + (isDef(starttime) ? starttime.format("HH:mm") : "n/a")
+                          + " - end=" + (isDef(endtime) ? endtime.format("HH:mm") : "n/a") +
+                          " diff: " + total + " (" + totalNoPause + ").");
             }
 
             timetableHtml += '<tr><td>' + itemDate + '</td><td>' + itemTime +
@@ -96,7 +113,6 @@ function displayMonthlyStat(month, year) {
 
             timetableHtml += '</tr>\n';
           }
-          //strHTMLOutput = "<li>" + arrLI.join('</li><li>') + "</li>";
         }
       } else {
         //strHTMLOutput = "<li>You haven't added any times yet!</li>";
@@ -219,19 +235,20 @@ $(document).ready(function() {
 
   var ckbox = $('#add_pause');
   $('input#add_pause').on('click',function () {
-      if ($('#add_pause').is(':checked')) {
-	  //alert('You have Checked it');
-	  console.log("Show total with Pause time substracted");
-	  $("#duration_43").text("checked");
-      } else {
-	  //alert('You Un-Checked it');
-	  console.log("Show total without Pause!");
-	  $("#duration_43").text("UN-checked");
+    if ($('#add_pause').is(':checked')) {
+      console.log("Show total with Pause time substracted");
+      for (var key in allVldTotals) {
+        console.log(key, allVldTotals[key].total);
+        $("#total_" + key).text(allVldTotals[key].total);
       }
+    } else {
+      console.log("Show total without Pause!");
+      for (var key in allVldTotals) {
+        console.log(key, allVldTotals[key].totalNoPause);
+        $("#total_" + key).text(allVldTotals[key].totalNoPause);
+      }
+    }
   });
-  // $('#add_pause').click(function() {
-  //   $("#duration_0").text("xxx");
-  // });
 
 
   $(document).on('click', '.dropdown-menu li a', function() {

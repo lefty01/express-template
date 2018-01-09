@@ -104,6 +104,8 @@ router.get('/workhours/:year/:month', function(req, res) {
   console.log(endDate.toDate());
 
   // find all entries for one given month (between first and last day of month)
+  // FIXME/TODO: check if we can only return on START/END per day
+  // (in case there are more than one START and one END entry ... eg. due to multiple suspend/resume during the day)
   WorkHour.find({
     $and: [
       {
@@ -116,9 +118,9 @@ router.get('/workhours/:year/:month', function(req, res) {
         $or: [{'startOrEnd' : 'START'}, {'startOrEnd' : 'END'}]
       }
     ]},
-		// only return time and startOrEnd, then sort by time ...
-                'time startOrEnd',
-                { sort: [['time', -1]] },
+		// only return time and startOrEnd (excluding _id), then sort by time ...
+		{'_id': 0, 'time': 1, 'startOrEnd': 1},
+		{ sort: [['time', -1]] },
                 function(err, hours) {
                   if (err) {
                     console.log(err);
