@@ -107,7 +107,6 @@ function displayMonthlyStat(month, year) {
               ' data-toggle="dropdown">Actions <i class="fa fa-angle-down"></i></button>' +
               ' <ul class="dropdown-menu">' +
               '  <li><a href="#"><i class="fa fa-edit"    id="' + data[intItem]._id + '"></i> Edit</a></li>' +
-             // '  <li><a href="#"><i class="fa fa-plus"    id="' + intItem + '"></i> Insert</a></li>' +
               '  <li><a href="#"><i class="fa fa-trash-o" id="' + data[intItem]._id + '"></i> Delete</a></li></ul>' +
               '</div></td>';
 
@@ -252,7 +251,7 @@ $(document).ready(function() {
 
 
   $(document).on('click', '.dropdown-menu li a', function() {
-    var matches = $(this).html().match(/<i class="fa fa-.*" id="([a-f0-9]+)"><\/i> (Delete|Edit|Insert)/);
+    var matches = $(this).html().match(/<i class="fa fa-.*" id="([a-f0-9]+)"><\/i> (Delete|Edit)/);
 
     if ("Delete" === matches[2]) {
       //alert("going to delete id: " + matches[1]);
@@ -260,9 +259,6 @@ $(document).ready(function() {
     }
     else if ("Edit" === matches[2]) {
 	editEntry(matches[1]);
-    }
-    else if ("Insert" === matches[2]) {
-	insertEntry(thisMonth);
     }
     displayMonthlyStat(thisMonth, thisYear);
   });

@@ -119,7 +119,7 @@ router.get('/workhours/:year/:month', function(req, res) {
       }
     ]},
 		// only return time and startOrEnd (excluding _id), then sort by time ...
-		{'_id': 0, 'time': 1, 'startOrEnd': 1},
+		{'_id': 1, 'time': 1, 'startOrEnd': 1},
 		{ sort: [['time', -1]] },
                 function(err, hours) {
                   if (err) {
