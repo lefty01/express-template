@@ -13,9 +13,8 @@ function isDef(what) {
 
 //   if (db && db !== "null" && db !== "undefined") {
 function displayMonthlyStat(month, year) {
-    var pause = moment.duration({ minutes: 50 });
-    var monthly_total = moment.duration({hour:  0, minute:  0});
-//    var timesPerDay = new Map();
+    var monthlyTotal = moment.duration(0);//{hour:  0, minute:  0});
+    //    var timesPerDay = new Map();
 
   $.ajax('/workhours/' + year + '/' + month, {
     dataType: 'json',
@@ -48,7 +47,8 @@ function displayMonthlyStat(month, year) {
             var itemTime = moment(data[intItem].time).format("HH:mm");
             var startOrEnd = data[intItem].startOrEnd;
             var total = '-';
-            //var total_moment_d = moment.duration({hour:  0, minute:  0});
+            var pause = moment.duration({ minutes: 50 });
+	    var pauseTd = '-';
             var totalNoPause = '-';
 
             if ("START" === data[intItem].startOrEnd) {
@@ -64,7 +64,14 @@ function displayMonthlyStat(month, year) {
 		// }
 
             } else {
-              var endtime = moment(data[intItem].time);
+		var endtime = moment(data[intItem].time);
+		console.log(data[intItem].pause);
+		if (isDef(data[intItem].pause)) {
+		    pause = moment.duration({ minutes: data[intItem].pause });
+		    pauseTd = data[intItem].pause;
+		}
+		//pause = isDef(data[intItem].pause) ? moment.duration({ minutes: data[intItem].pause }) : moment.duration({ minutes: 50 }) ;
+
 		// if (isDef(timesPerDay[itemDate])  && isDef(timesPerDay[itemDate].END)) {
 		//     console.log("END exists for day: " + itemDate);
 		// } else {
@@ -76,7 +83,10 @@ function displayMonthlyStat(month, year) {
               
               //var dNoPause = moment.utc(moment(endtime).diff(moment(starttime))).format("HH:mm");
               total = moment.utc(moment(endtime).diff(moment(starttime))).subtract(pause).format("HH:mm");
-              total_moment_d = moment.utc(moment(endtime).diff(moment(starttime))).subtract(pause);
+              totalDuration = moment.duration(moment(endtime).diff(moment(starttime))).subtract(pause);
+              totalDurationNoPause = moment.duration(moment(endtime).diff(moment(starttime)));
+              //total_moment_d = moment.utc(moment(endtime).diff(moment(starttime))).subtract(pause);
+
               totalNoPause = moment.utc(moment(endtime).diff(moment(starttime))).format("HH:mm");
 
               // add total times with/without pause to some global data structure so we can use it to toggle the displayed value
@@ -85,12 +95,11 @@ function displayMonthlyStat(month, year) {
                   total: total,
                   totalNoPause: totalNoPause
                 };
-		  //var total_moment_d = moment.duration({hour:  0, minute:  0});
-		  //monthly_total.add(moment.utc(moment(endtime).diff(moment(starttime))).subtract(pause).duration);
               }
 
-              //monthly_total.add(total_moment_d.duration);
-              console.log("monthly total: " + moment(monthly_total).format("HH::mm"));
+              console.log(totalDuration.hours() + ":" + totalDuration.minutes());
+              monthlyTotal.add(totalDuration);
+              console.log("monthly total: " + monthlyTotal.hours() + ":" + monthlyTotal.minutes());
 
               console.log("item=" + intItem + " start=" + (isDef(starttime) ? starttime.format("HH:mm") : "n/a")
                           + " - end=" + (isDef(endtime) ? endtime.format("HH:mm") : "n/a") +
@@ -98,7 +107,7 @@ function displayMonthlyStat(month, year) {
             }
 
             timetableHtml += '<tr><td>' + itemDate + '</td><td>' + itemTime +
-              '</td><td>' + startOrEnd + '</td><td>' + pause.asMinutes() +
+              '</td><td>' + startOrEnd + '</td><td>' + pauseTd +
               '</td><td id="total_' + intItem + '">' + total + '</td>';
 
             timetableHtml += '<td>' +
@@ -119,6 +128,7 @@ function displayMonthlyStat(month, year) {
       }
       //$('#myworkhours').html(strHTMLOutput);
       $('#timetable').html(timetableHtml);
+      $("#monthly_total").text(monthlyTotal.hours() + ":" + monthlyTotal.minutes());
     }
   });
 
@@ -145,17 +155,16 @@ function removeEntry(id) {
 function editEntry(id) {
     alert("going to edit id: " + id);
     
-  //   $.ajax('/workhours/' + id, {
-  //     type: 'DELETE',
-  //     error: function(data) {
-  //       console.log("ajax error :( " + data);
-  //     },
-  //     success: function(data) {
-  //       console.log("OK :) " + data);
-  //     }
-  //   });
-  //   return false;
-    return true;
+    $.ajax('/workhours/' + id, {
+	type: 'PUT',
+	error: function(data) {
+            console.log("ajax error :( " + data);
+	},
+	success: function(data) {
+            console.log("OK :) " + data);
+	}
+    });
+    return false;
 }
 
 function insertEntry(month) {

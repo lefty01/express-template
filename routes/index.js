@@ -119,7 +119,7 @@ router.get('/workhours/:year/:month', function(req, res) {
       }
     ]},
 		// only return time and startOrEnd (excluding _id), then sort by time ...
-		{'_id': 1, 'time': 1, 'startOrEnd': 1},
+		{'_id': 1, 'time': 1, 'startOrEnd': 1, 'pause': 1 },
 		{ sort: [['time', -1]] },
                 function(err, hours) {
                   if (err) {
@@ -159,6 +159,7 @@ router.delete('/workhours/:id', function(req, res, next) {
 
 // Update ... (crUd)
 router.put('/workhours/:id', function(req, res, next) {
+    console.log("updating entry with id: " + req.params.id);
 
 });
 

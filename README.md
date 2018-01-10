@@ -51,3 +51,11 @@ if [ "$2" = "suspend" ] || [ "$2" = "hybrid-sleep" ]; then
     esac
 fi
 
+
+
+
+TODO:
+- monthly total
+- store pause together with END (? ... default 50min make editable)
+- input fields to manual start/end enter
+- implement edit time/pause function

@@ -23,7 +23,8 @@ var workhourSchema = new mongoose.Schema({
   hhmm:        String,
   startOrEnd:  String,
   start:     { type: Boolean, default: false },
-  end:       { type: Boolean, default: false }
+  end:       { type: Boolean, default: false },
+  pause:     { type: Number,  default: 50 }
 });
 
 // adding new static method for projects
