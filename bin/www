@@ -1,4 +1,4 @@
-#!/usr/bin/env nodejs
+#!/usr/bin/env node
 
 /**
  * Module dependencies.
@@ -14,7 +14,8 @@ var http = require('http');
 
 var port = normalizePort(process.env.PORT || '3030');
 app.set('port', port);
-console.log('Express Server listening on port ' + port)
+
+debug('Express Server listening on port ' + port)
 
 /**
  * Create HTTP server.

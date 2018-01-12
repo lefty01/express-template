@@ -1,4 +1,6 @@
 //var moment = require('moment');
+//var momentDurationFormatSetup = require("moment-duration-format");
+
 //var whichMonth;
 //var durations = {};
 var allVldTotals = {}; // contains valid totals (that is we have start & end) with and without pause
@@ -99,7 +101,7 @@ function displayMonthlyStat(month, year) {
 
               console.log(totalDuration.hours() + ":" + totalDuration.minutes());
               monthlyTotal.add(totalDuration);
-              console.log("monthly total: " + monthlyTotal.hours() + ":" + monthlyTotal.minutes());
+              console.log("monthly total: " + monthlyTotal.format("HH:mm"));
 
               console.log("item=" + intItem + " start=" + (isDef(starttime) ? starttime.format("HH:mm") : "n/a")
                           + " - end=" + (isDef(endtime) ? endtime.format("HH:mm") : "n/a") +
@@ -128,7 +130,7 @@ function displayMonthlyStat(month, year) {
       }
       //$('#myworkhours').html(strHTMLOutput);
       $('#timetable').html(timetableHtml);
-      $("#monthly_total").text(monthlyTotal.hours() + ":" + monthlyTotal.minutes());
+      $("#monthly_total").text(monthlyTotal.format("HH:mm"));
     }
   });
 

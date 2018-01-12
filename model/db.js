@@ -1,3 +1,4 @@
+var debug = require('debug')('mongoosepm:server');
 var mongoose = require('mongoose');
 var dbURI = 'mongodb://localhost:27017/mongoosepm';
 
@@ -46,7 +47,7 @@ mongoose.model('Project', projectSchema);
 mongoose.model('WorkHour', workhourSchema);
 
 mongoose.connection.on('connected', function () {
-  console.log('Mongoose connected to ' + dbURI);
+  debug('Mongoose connected to ' + dbURI);
 });
 
 mongoose.connection.on('error',function (err) {

@@ -4,6 +4,7 @@ var mongoose = require('mongoose');
 var User = mongoose.model('User');
 var WorkHour = mongoose.model('WorkHour');
 var moment = require('moment');
+var momentDurationFormatSetup = require("moment-duration-format");
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
