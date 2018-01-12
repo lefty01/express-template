@@ -162,6 +162,15 @@ router.delete('/workhours/:id', function(req, res, next) {
 router.put('/workhours/:id', function(req, res, next) {
     console.log("updating entry with id: " + req.params.id);
 
+    WorkHour.findByIdAndUpdate(req.params.id, {
+	$set: { size: 'large' }}, { new: true }, function (err, tank) {
+	    if (err) return handleError(err);
+	    res.send(tank);
+	});
+
+    
+    //WorkHour.update({ _id: id }, { $set: { size: 'large' }}, callback);
+
 });
 
 // Create ... (Crud)

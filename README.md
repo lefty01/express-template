@@ -62,3 +62,6 @@ fi
 TODO:
 - input fields to manual start/end enter
 - implement edit time/pause function
+ -> try this https://editor.datatables.net/examples/simple/simple.html
+             https://editor.datatables.net/examples/advanced/REST.html
+	     

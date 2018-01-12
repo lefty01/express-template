@@ -174,11 +174,57 @@ function insertEntry(month) {
 }
 
 
-
+var editor;
 $(document).ready(function() {
   // enable bootstrap tooltips (here used for prev/next month display)
-  $('[data-toggle="tooltip"]').tooltip();
-  $('#worktime-table').DataTable();
+    $('[data-toggle="tooltip"]').tooltip();
+
+    // editor = new $.fn.dataTable.Editor( {
+    //     table: "#worktime-table",
+    //     fields: [ {
+    //             label: "Start date:",
+    //             name: "start_date",
+    //             type: "datetime"
+    //         }, {
+    //             label: "Start or End:",
+    //             name: "startorend"
+    //         }, {
+    //             label: "Pause:",
+    //             name: "pause"
+    //         }
+    //     ]
+    // } );
+    
+    //$('#worktime-table').DataTable();
+    $('#worktime-table').DataTable( {
+    //     dom: "Bfrtip",
+    //     ajax: "../php/staff.php",
+    //     order: [[ 1, 'asc' ]],
+    //     columns: [
+    //         {
+    //             data: null,
+    //             defaultContent: '',
+    //             className: 'select-checkbox',
+    //             orderable: false
+    //         },
+    //         { data: "first_name" },
+    //         { data: "last_name" },
+    //         { data: "position" },
+    //         { data: "office" },
+    //         { data: "start_date" },
+    //         { data: "salary", render: $.fn.dataTable.render.number( ',', '.', 0, '$' ) }
+    //     ],
+    //     select: {
+    //         style:    'os',
+    //         selector: 'td:first-child'
+    //     },
+
+        // buttons: [
+        //      { extend: "create", editor: editor },
+        //      { extend: "edit",   editor: editor },
+        //      { extend: "remove", editor: editor }
+        //  ]
+    } );
 
   var strHTMLOutput = '';
   var thisMoment = moment();
