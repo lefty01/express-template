@@ -1,0 +1,2 @@
+
+DEBUG=* nodemon bin/worktime

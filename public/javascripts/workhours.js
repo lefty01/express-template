@@ -24,7 +24,7 @@ function displayMonthlyStat(month, year) {
       console.log("ajax error :(");
     },
     success: function(data) {
-      var timetableHtml = '<table class="table table-bordered table-condensed table-hover" id="worktime-table"\n>' +
+      var timetableHtml = '<table class="table table-bordered table-condensed table-hover" id="worktimetable">\n' +
         '<thead>' +
         ' <tr>' +
         '  <th>Date</th>' +
@@ -44,6 +44,7 @@ function displayMonthlyStat(month, year) {
           var intItem;
           var totalItems = data.length;
 
+	  // display from start to end of month ...
           for (intItem = totalItems - 1; intItem >= 0; intItem--) {
             var itemDate = moment(data[intItem].time).format("ddd DD");
             var itemTime = moment(data[intItem].time).format("HH:mm");
@@ -52,6 +53,8 @@ function displayMonthlyStat(month, year) {
             var pause = moment.duration({ minutes: 50 });
 	    var pauseTd = '-';
             var totalNoPause = '-';
+
+	    console.log("data[" + intItem + "]: " + itemDate + " - " + itemTime);
 
             if ("START" === data[intItem].startOrEnd) {
 		var starttime = moment(data[intItem].time);
@@ -129,6 +132,7 @@ function displayMonthlyStat(month, year) {
         timetableHtml = "You haven't added any times yet!";
       }
       //$('#myworkhours').html(strHTMLOutput);
+      timetableHtml += '</table>\n';
       $('#timetable').html(timetableHtml);
       $("#monthly_total").text(monthlyTotal.format("HH:mm"));
     }
@@ -180,7 +184,7 @@ $(document).ready(function() {
     $('[data-toggle="tooltip"]').tooltip();
 
     // editor = new $.fn.dataTable.Editor( {
-    //     table: "#worktime-table",
+    //     table: "#worktimetable",
     //     fields: [ {
     //             label: "Start date:",
     //             name: "start_date",
@@ -195,10 +199,11 @@ $(document).ready(function() {
     //     ]
     // } );
     
-    //$('#worktime-table').DataTable();
-    $('#worktime-table').DataTable( {
-    //     dom: "Bfrtip",
-    //     ajax: "../php/staff.php",
+    //$('#worktimetable').DataTable();
+    $('#worktimetable').DataTable( {
+        order: [[ 0, 'desc' ]]
+
+    //     ajax: "../blah/foo.php",
     //     order: [[ 1, 'asc' ]],
     //     columns: [
     //         {

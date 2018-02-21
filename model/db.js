@@ -47,7 +47,7 @@ mongoose.model('Project', projectSchema);
 mongoose.model('WorkHour', workhourSchema);
 
 mongoose.connection.on('connected', function () {
-  debug('Mongoose connected to ' + dbURI);
+  console.log('Mongoose connected to ' + dbURI);
 });
 
 mongoose.connection.on('error',function (err) {

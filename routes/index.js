@@ -81,7 +81,7 @@ router.get('/workhours', function(req, res, nxt) {
   // find() ...
   WorkHour.find({ $or: [{'startOrEnd' : 'START'}, {'startOrEnd' : 'END'}]},
                 'time startOrEnd',
-                { sort: [['time', -1]] },
+                //{ sort: [['time', -1]] }, ... previous mongoose!
                 function(err, hours) {
                   if (err) {
                     console.log(err);
@@ -90,7 +90,7 @@ router.get('/workhours', function(req, res, nxt) {
                     console.log(hours);
                     res.json(hours);
                   }
-                });
+                }).sort({'time' : -1});
 });
 
 // Read ... (cRud)
@@ -121,7 +121,6 @@ router.get('/workhours/:year/:month', function(req, res) {
     ]},
 		// only return time and startOrEnd (excluding _id), then sort by time ...
 		{'_id': 1, 'time': 1, 'startOrEnd': 1, 'pause': 1 },
-		{ sort: [['time', -1]] },
                 function(err, hours) {
                   if (err) {
                     console.log(err);
@@ -130,7 +129,7 @@ router.get('/workhours/:year/:month', function(req, res) {
                     console.log(hours);
                     res.json(hours);
                   }
-                });
+                }).sort({'time' : -1});
 });
 
 // Delete ... (cruD)
