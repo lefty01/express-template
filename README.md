@@ -1,5 +1,5 @@
 # express-ssl-template
-node.js express with pug
+node.js express with ssl support using pug template engine
 
 This is basically the express (version 4.13.4) default project layout modified to use pug.
 
