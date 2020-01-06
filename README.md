@@ -19,7 +19,7 @@ subjectAltName = @alt_names
 DNS.1 = foo.bar
 ```
 
-# the CA used above can be generated via:
+## the CA used above can be generated via:
 - openssl genrsa -des3 -out myCA.key 2048
 - openssl req -x509 -new -nodes -key myCA.key -sha256 -days 1825 -out myCA.pem
 
