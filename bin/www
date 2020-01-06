@@ -4,9 +4,17 @@
  * Module dependencies.
  */
 
-var app = require('../app');
-var debug = require('debug')('mongoosepm:server');
-var http = require('http');
+const app   = require('../app');
+const debug = require('debug')('mongoosepm:server');
+const http  = require('https');
+const fs = require('fs');
+
+var ssl_options = {
+    key:  fs.readFileSync('ssl_private.key'),
+    cert: fs.readFileSync('ssl_certificate.cer'),
+    requestCert: true,
+    rejectUnauthorized: false
+};
 
 /**
  * Get port from environment and store in Express.
@@ -19,8 +27,7 @@ console.log('Express Server listening on port ' + port)
 /**
  * Create HTTP server.
  */
-
-var server = http.createServer(app);
+var server = http.createServer(ssl_options, app);
 
 /**
  * Listen on provided port, on all network interfaces.
